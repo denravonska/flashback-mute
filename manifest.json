@@ -1,0 +1,32 @@
+{
+  "name": "Flashback Mute",
+  "description": "Local user mute functionality for flashback.org",
+  "version": "0.1.0",
+  "manifest_version": 3,
+  "permissions": [
+    "storage",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "https://flashback.org/*"
+  ],
+  "action": {
+    "default_icon": "images/icon_128.png"
+  },
+  "icons": {
+    "16": "images/icon_16.png",
+    "64": "images/icon_64.png",
+    "128": "images/icon_128.png"
+  },
+  "content_scripts": [
+    {
+      "all_frames": true,
+      "matches": [
+        "https://*.flashback.org/*"
+      ],
+      "js": [
+        "src/flashback.js"
+      ]
+    }
+  ]
+}
