@@ -4,8 +4,7 @@
   "version": "0.1.0",
   "manifest_version": 3,
   "permissions": [
-    "storage",
-    "activeTab"
+    "storage"
   ],
   "host_permissions": [
     "https://flashback.org/*"
