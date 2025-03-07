@@ -69,15 +69,12 @@ chrome.storage.local.get([STORAGE_KEY], (data) => {
 
     // Function to rescan the page for the user's posts after muting or unmuting
     function rescanPostsForUser(user, isMuted) {
-        document.querySelectorAll('a.post-user-username').forEach(anchor => {
-            let href = anchor.getAttribute("href");
-            if (href === user.id) {
-                let postContainer = anchor.closest('div[id]');
-                let postBody = postContainer.querySelector('.post-body');
-                let postHeading = postContainer.querySelector('.post-heading');
-                let muteButton = postContainer.querySelector('#mute-button');
-                updateUserPostState(user, isMuted, postBody, postHeading, muteButton);
-            }
+        document.querySelectorAll(`a.post-user-username[href="${user.id}"]`).forEach(anchor => {
+            let postContainer = anchor.closest('div[id]');
+            let postBody = postContainer.querySelector('.post-body');
+            let postHeading = postContainer.querySelector('.post-heading');
+            let muteButton = postContainer.querySelector('#mute-button');
+            updateUserPostState(user, isMuted, postBody, postHeading, muteButton);
         });
     }
 
