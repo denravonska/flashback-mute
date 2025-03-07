@@ -36,9 +36,7 @@ chrome.storage.local.get([STORAGE_KEY], (data) => {
                 postHeading.insertBefore(mutedUserSpan, pullRight);
             }
         } else {
-            if (mutedUserElement) {
-                mutedUserElement.remove();
-            }
+            mutedUserElement?.remove();
         }
 
         muteButton.textContent = isMuted ? "Unmute" : "Mute";
