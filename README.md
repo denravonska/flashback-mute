@@ -35,3 +35,7 @@ the page will show the manually collaped posts again.
 - Reply handling
 - Mute from user profiles
 - Selective mute in certain topics or threads
+
+# Disclaimer
+I am a C++, not Javascript, developer. I am fully aware that I may have done things
+a bit unorthodox or plain out wrong. Please [let me know](https://github.com/denravonska/flashback-mute/issues) and I'll try to do it properly.
