@@ -115,14 +115,15 @@ chrome.storage.local.get([STORAGE_KEY], (data) => {
     // Remove this workaround and switch back to per-heading click handlers
     // when figured out how to.
     document.getElementById("posts").addEventListener("click", (event) => {
-        document.querySelectorAll(".post").forEach(post => {
+        for (post of document.querySelectorAll(".post")) {
             const postHeading = post.querySelector(".post-heading");
             const rect = postHeading.getBoundingClientRect();
             if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom)
-                return;
+                continue;
 
             const postBody = post.querySelector(".post-body");
             togglePostVisibility(postBody);
-        });
+            break;
+        }
     });
 });
