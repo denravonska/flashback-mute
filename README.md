@@ -1,3 +1,7 @@
+<p align="center">
+![](images/icon_128.png)
+</p>
+
 # Flashback Mute
 This is an extension that allows users to mute posts by other users (or themselves)
 on [flashback.org](https://flashback.org)
@@ -35,6 +39,10 @@ the page will show the manually collaped posts again.
 - Reply handling
 - Mute from user profiles
 - Selective mute in certain topics or threads
+
+# Installing
+Installation can either be done by downloading the sources as a zip file and installing
+it as an [unpacked extension](https://developer.chrome.com/docs/extensions/get-started/tutorial/hello-world#load-unpacked), or by visiting the [store page](https://chromewebstore.google.com/detail/flashback-mute/koojbgdpkpmobmmfdffhnigihaphclkc).
 
 # Disclaimer
 I am a C++, not Javascript, developer. I am fully aware that I may have done things
