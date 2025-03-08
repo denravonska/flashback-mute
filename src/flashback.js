@@ -3,11 +3,10 @@
 // - Store username in addition to user ID
 
 
-migrateFromLocalStorage();
 migrateStorageVersion();
 
 // Load muted users from storage
-chrome.storage.sync.get([MUTED_USERS_KEY], (data) => {
+chrome.storage.local.get([MUTED_USERS_KEY], (data) => {
     let mutedUsers = data[MUTED_USERS_KEY] || [];
 
     function togglePostVisibility(postBody) {
