@@ -102,16 +102,19 @@ chrome.storage.local.get([MUTED_USERS_KEY], (data) => {
     // heading element, causing the wrong heading click handler to run.
     // Remove this workaround and switch back to per-heading click handlers
     // when figured out how to.
-    document.getElementById("posts").addEventListener("click", (event) => {
-        for (post of document.querySelectorAll(".post")) {
-            const postHeading = post.querySelector(".post-heading");
-            const rect = postHeading.getBoundingClientRect();
-            if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom)
-                continue;
+    let posts = document.getElementById("posts");
+    if (posts) {
+        posts.addEventListener("click", (event) => {
+            for (post of document.querySelectorAll(".post")) {
+                const postHeading = post.querySelector(".post-heading");
+                const rect = postHeading.getBoundingClientRect();
+                if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom)
+                    continue;
 
-            const postBody = post.querySelector(".post-body");
-            togglePostVisibility(postBody);
-            break;
-        }
-    });
+                const postBody = post.querySelector(".post-body");
+                togglePostVisibility(postBody);
+                break;
+            }
+        });
+    }
 });
