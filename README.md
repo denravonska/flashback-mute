@@ -1,7 +1,3 @@
-<p align="center">
-![](images/icon_128.png)
-</p>
-
 # Flashback Mute
 This is an extension that allows users to mute posts by other users (or themselves)
 on [flashback.org](https://flashback.org)
