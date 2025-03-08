@@ -24,6 +24,7 @@
         "https://*.flashback.org/*"
       ],
       "js": [
+        "src/storage.js",
         "src/flashback.js"
       ]
     }

@@ -2,19 +2,13 @@
 // - Handle quotes
 // - Store username in addition to user ID
 
-const STORAGE_KEY = "muted_users";
-const STORAGE_VERSION_KEY = "storage_version";
-const STORAGE_VERSION = 1;
 
+migrateFromLocalStorage();
+migrateStorageVersion();
 
 // Load muted users from storage
-chrome.storage.sync.get([STORAGE_KEY], (data) => {
-    let mutedUsers = data[STORAGE_KEY] || [];
-
-    // TODO: Storage migration
-    let storageVersion = data[STORAGE_VERSION_KEY] || 0;
-    if (storageVersion == 0)
-        chrome.storage.sync.set({ [STORAGE_VERSION_KEY]: STORAGE_VERSION });
+chrome.storage.sync.get([MUTED_USERS_KEY], (data) => {
+    let mutedUsers = data[MUTED_USERS_KEY] || [];
 
     function togglePostVisibility(postBody) {
         postBody.style.display = postBody.style.display === 'none' ? '' : 'none';
@@ -48,13 +42,9 @@ chrome.storage.sync.get([STORAGE_KEY], (data) => {
     function handleMuteButtonClick(user) {
         let isMuted = isUserMuted(user);
         if (isMuted) {
-            // Unmute user
-            const index = mutedUsers.findIndex(u => u.id === user.id);
-            if (index !== -1)
-                mutedUsers.splice(index, 1);
+            unmuteUser(user);
         } else {
-            // Mute user
-            mutedUsers.push(user);
+            muteUser(user);
         }
 
         // For sake of readability. The mute state is now the inverse of
@@ -62,8 +52,6 @@ chrome.storage.sync.get([STORAGE_KEY], (data) => {
         isMuted = !isMuted;
 
         rescanPostsForUser(user, isMuted);
-
-        chrome.storage.sync.set({ [STORAGE_KEY]: mutedUsers });
     }
 
     // Function to rescan the page for the user's posts after muting or unmuting
