@@ -105,9 +105,24 @@ chrome.storage.local.get([STORAGE_KEY], (data) => {
 
         // All posts can be toggled
         postHeading.style.cursor = 'pointer';
-        postHeading.addEventListener('click', () => togglePostVisibility(postBody));
 
         // Update post state
         updateUserPostState(user, isUserMuted(user), postBody, postHeading, muteButton);
+    });
+
+    // Workaround for the jumptarget element residing outside of the post
+    // heading element, causing the wrong heading click handler to run.
+    // Remove this workaround and switch back to per-heading click handlers
+    // when figured out how to.
+    document.getElementById("posts").addEventListener("click", (event) => {
+        document.querySelectorAll(".post").forEach(post => {
+            const postHeading = post.querySelector(".post-heading");
+            const rect = postHeading.getBoundingClientRect();
+            if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom)
+                return;
+
+            const postBody = post.querySelector(".post-body");
+            togglePostVisibility(postBody);
+        });
     });
 });
