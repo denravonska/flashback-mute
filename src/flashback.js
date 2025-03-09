@@ -3,18 +3,12 @@
 // - Store username in addition to user ID
 
 
-migrateStorageVersion();
-
 // Load muted users from storage
 chrome.storage.local.get([MUTED_USERS_KEY], (data) => {
-    let mutedUsers = data[MUTED_USERS_KEY] || [];
+    initStorage(data);
 
     function togglePostVisibility(postBody) {
         postBody.style.display = postBody.style.display === 'none' ? '' : 'none';
-    }
-
-    function isUserMuted(user) {
-        return mutedUsers.some(u => u.id === user.id);
     }
 
     // Update user post based on mute state
