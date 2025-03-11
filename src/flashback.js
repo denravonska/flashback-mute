@@ -5,6 +5,12 @@
 
 // Load muted users from storage
 chrome.storage.local.get([MUTED_USERS_KEY], (data) => {
+    // Ignore everything for now if we're not reading a thread. This fixes the
+    // issue where search results are collapsable. This will be removed when
+    // the extension coverage is extended.
+    if (!location.pathname.startsWith("/p"))
+        return;
+
     initStorage(data);
 
     function togglePostVisibility(postBody) {
