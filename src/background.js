@@ -23,13 +23,11 @@ chrome.storage.onChanged.addListener(function (changes, area) {
     if (area == "local") {
         // Change in local storage: queue a flush to sync
 
-        // Reset timeout
         if (timeout)
             clearTimeout(timeout);
 
         // Merge changes with already queued ones
         for (var key in changes) {
-            // Just overwrite old change; we don't care about last newValue
             queuedChanges[key] = changes[key];
         }
 
@@ -47,19 +45,13 @@ chrome.storage.onChanged.addListener(function (changes, area) {
 });
 
 function flushToSync() {
-    // Be mindful of what gets synced: there are also size quotas
-    // If needed, filter queuedChanges here
-
     // Generate a new sync stamp
     // With random instead of sequential, there's a really tiny chance
     //   changes will be ignored, but no chance of stamp overflow
     syncStamp = Math.random();
     queuedChanges.syncStamp = { newValue: syncStamp };
 
-    // Process queue for committing
     commitChanges(queuedChanges, chrome.storage.sync);
-
-    // Reset queue
     queuedChanges = {};
     timeout = undefined;
 }
