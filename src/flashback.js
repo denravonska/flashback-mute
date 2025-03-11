@@ -8,7 +8,8 @@ chrome.storage.local.get([MUTED_USERS_KEY], (data) => {
     // Ignore everything for now if we're not reading a thread. This fixes the
     // issue where search results are collapsable. This will be removed when
     // the extension coverage is extended.
-    if (!location.pathname.startsWith("/t"))
+    if (!location.pathname.startsWith("/t") &&  // Thread
+        !location.pathname.startsWith("/p"))    // Link to post within thread
         return;
 
     initStorage(data);
