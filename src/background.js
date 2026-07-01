@@ -5,7 +5,15 @@ console.log("Service worker running");
 // Installations need to pull synchronized data.
 chrome.runtime.onInstalled.addListener(() => {
     chrome.storage.sync.get(null, (syncData) => {
-        commitChangs(syncData, chrome.storage.local);
+        // Seed our stamp so the pulled data doesn't echo back out as a flush.
+        if (syncData.syncStamp)
+            syncStamp = syncData.syncStamp;
+
+        // syncData holds raw values, so it can be written to local directly.
+        chrome.storage.local.set(syncData, () => {
+            if (chrome.runtime.lastError)
+                console.error(chrome.runtime.lastError.message);
+        });
     });
 });
 
@@ -32,7 +40,7 @@ chrome.storage.onChanged.addListener(function (changes, area) {
         }
 
         // Schedule flush
-        timeout = setTimeout(flushToSync, 3000);
+        timeout = setTimeout(flushToSync, STORAGE_FLUSH_TIMEOUT);
 
     } else {
         // Change in sync storage: copy to local

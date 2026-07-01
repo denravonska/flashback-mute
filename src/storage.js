@@ -31,3 +31,7 @@ function unmuteUser(user) {
 function isUserMuted(user) {
     return mutedUsers.some(u => u.id === user.id);
 }
+
+function setMutedUsers(users) {
+    mutedUsers = users || [];
+}

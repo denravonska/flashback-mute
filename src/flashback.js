@@ -99,6 +99,41 @@ chrome.storage.local.get([MUTED_USERS_KEY], (data) => {
         updateUserPostState(user, isUserMuted(user), postBody, postHeading, muteButton);
     });
 
+    // Re-apply the current mute state to every post on the page.
+    function refreshAllPosts() {
+        document.querySelectorAll('a.post-user-username').forEach(anchor => {
+            let href = anchor.getAttribute("href");
+            if (!href)
+                return;
+
+            let postContainer = anchor.closest('div[id]');
+            if (!postContainer)
+                return;
+
+            let postBody = postContainer.querySelector('.post-body');
+            let postHeading = postContainer.querySelector('.post-heading');
+            let muteButton = postContainer.querySelector('#mute-button');
+            if (!postBody || !postHeading || !muteButton)
+                return;
+
+            let user = {
+                name: anchor.textContent.trim(),
+                id: href
+            };
+            updateUserPostState(user, isUserMuted(user), postBody, postHeading, muteButton);
+        });
+    }
+
+    // Live-update when the mute list changes in another tab or is synced from
+    // another browser.
+    chrome.storage.onChanged.addListener((changes, area) => {
+        if (area !== "local" || !changes[MUTED_USERS_KEY])
+            return;
+
+        setMutedUsers(changes[MUTED_USERS_KEY].newValue);
+        refreshAllPosts();
+    });
+
     // Workaround for the jumptarget element residing outside of the post
     // heading element, causing the wrong heading click handler to run.
     // Remove this workaround and switch back to per-heading click handlers
